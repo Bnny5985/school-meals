@@ -1,0 +1,20 @@
+# תבנית FreshEat המקורית — שימשה כהשראה לעיצוב בלבד.
+# היא לא חלק מהאתר, שוקלת כמה מגה־בייט, ומופצת ברישיון Envato
+# שלא מתיר הפצה מחדש. אל תעלה אותה ל-GitHub.
+main files/
+documentation/
+
+# מערכת
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# עורכים
+.vscode/
+.idea/
+*.swp
+.review/
+
+# שאריות ComfyUI שהתגלגלו לתיקייה — לא חלק מהאתר
+ck.json
+un.json
