@@ -27,6 +27,9 @@ window.NUTRITION = {
   "pb-banana":              { kcal: 475, protein: 15, sugar: 23, serving: "כריך שלם" },
   "pita-cottage":           { kcal: 275, protein: 18, sugar: 6,  serving: "פיתה שלמה" },
   "toast-cheese":           { kcal: 350, protein: 19, sugar: 4,  serving: "טוסט שלם" },
+  "tuna-corn-sandwich":     { kcal: 340, protein: 22, sugar: 5,  serving: "כריך שלם" },
+  "tuna-toast":             { kcal: 370, protein: 23, sugar: 4,  serving: "טוסט שלם" },
+  "cheese-corn-toast":      { kcal: 370, protein: 18, sugar: 6,  serving: "טוסט שלם" },
   "jam-butter-roll":        { kcal: 265, protein: 6,  sugar: 14, serving: "לחמנייה שלמה" },
 
   /* ---------- ארוחת בוקר — לא כריכים ---------- */

@@ -41,6 +41,9 @@ const NEG =
 const SUBJECTS = {
   /* ---------- ארוחת בוקר — כריכים ---------- */
   "tuna-sandwich": "a tuna salad sandwich made with two square slices of smooth plain white sandwich bread with crisp green lettuce and tomato slices, filling visible at the edge",
+  "tuna-corn-sandwich": "a sandwich cut in half made with two square slices of smooth plain white sandwich bread, filled with creamy tuna salad mixed with bright yellow sweet corn kernels, a crisp green lettuce leaf, the yellow corn clearly visible in the filling at the cut edge",
+  "tuna-toast": "a pressed grilled toast sandwich cut diagonally in half, golden brown crispy plain white bread with grill marks, filled with tuna salad and thin tomato slices visible at the cut edge",
+  "cheese-corn-toast": "a pressed grilled toast sandwich cut diagonally in half, golden brown crispy plain white bread with grill marks, filled with melted gooey yellow cheese and bright yellow sweet corn kernels oozing at the cut edge",
   "cheese-cucumber": "an open sandwich on smooth soft white bread spread with thick white cheese, topped with thin cucumber slices",
   "hard-egg-sandwich": "an egg salad sandwich on smooth plain white bread, creamy yellow egg filling with green onion visible",
   "avocado-sandwich": "an open sandwich on smooth plain bread with thick mashed green avocado and two tomato slices, sprinkled with salt",
