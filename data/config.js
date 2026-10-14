@@ -163,7 +163,7 @@ window.SITE_CONFIG = {
   },
 
   /* טופס "הציעו מתכון" (Google Forms). נפתח רק בלחיצה — לא נטען מראש בעמוד. */
-  suggestForm: "https://docs.google.com/forms/d/1tfOCxy-Wrn2_Yi9vFBqEK_w8Zz0pmUCr5v_7EKtrNHU/viewform",
+  suggestForm: "https://docs.google.com/forms/d/e/1FAIpQLSeqk_NQo3ItReHcDJKuJX9IvjMtdodA7u77zo8zJ1sDN1zjpg/viewform",
 
   /* טקסט האזהרה שמופיע בכל דף מנה. שנה כרצונך. */
   disclaimer:
