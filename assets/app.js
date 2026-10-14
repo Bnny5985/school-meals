@@ -318,23 +318,22 @@
     const chips = activeAllergens().map((a) => `<span class="chip chip-x">${esc(a.name)}</span>`).join("");
     const ok = (CFG.allowed || []).length ? `<span class="chip chip-ok">מותר: ${esc(CFG.allowed.join(", "))}</span>` : "";
     const nav = [
-      ["index.html", "ראשי", "home"],
-      ...(CFG.categories || []).map((c) => [`category.html?cat=${c.id}`, c.name, c.id]),
-      ["favorites.html", "מועדפים", "favorites"],
+      ...(CFG.categories || []).map((c) => [`category.html?cat=${c.id}`, c.id === "friday" ? "פינוק לשישי" : c.name, c.id]),
       ["planner.html", "השבוע שלי", "planner"],
+      ["favorites.html", "מועדפים", "favorites"],
       ["products.html", "מדריך קניות", "products"],
     ];
     return `
 <header class="hdr">
   <div class="hdr-in">
-    <a class="logo" href="index.html">
+    <a class="logo" href="index.html"${active === "home" ? ' aria-current="page"' : ""}>
       <span class="logo-mark">${ico("box")}</span>
-      <span>${esc(CFG.siteName || "הקופסה")}<small>${esc(CFG.schoolName || "")}</small></span>
+      <span>${esc(CFG.siteName || "הקופסה")}</span>
     </a>
-    <span class="hdr-spacer"></span>
     <nav class="nav" id="mainNav" aria-label="ניווט ראשי">
       ${nav.map(([href, label, key]) => `<a href="${href}"${active === key ? ' aria-current="page"' : ""}>${esc(label)}</a>`).join("")}
     </nav>
+    <span class="hdr-spacer"></span>
     <button class="a11y-mode-btn" type="button" data-a11y-mode aria-pressed="false">
       ${ico("access")}<span class="lbl">מצב נגיש</span>
     </button>
@@ -344,12 +343,14 @@
     </button>
   </div>
 </header>
-<div class="allergy-bar" role="region" aria-label="אלרגנים אסורים בבית הספר">
+<div class="allergy-bar" role="region" aria-label="כללי בית הספר">
   <div class="allergy-bar-in">
-    <details class="allergy-det" open>
-      <summary>${ico("shield")}אסור בבית הספר <span class="cnt">${activeAllergens().length} אלרגנים</span><span class="tog"></span></summary>
-      <div class="allergy-chips"><b>${ico("shield")}אסור בבית הספר:</b>${chips}${ok}</div>
+    <details class="allergy-det">
+      <summary>${ico("shield")}<b>כללי בית הספר</b><span class="cnt">${activeAllergens().length} אלרגנים אסורים</span><span class="tog" aria-hidden="true"></span></summary>
+      <div class="allergy-chips"><b>אסור בבית הספר:</b>${chips}${ok}</div>
     </details>
+    <span class="rule-sep" aria-hidden="true"></span>
+    <a class="rule-link" href="products.html">בדקו תמיד את תווית המוצר</a>
   </div>
 </div>`;
   }
@@ -361,7 +362,7 @@
       ["index.html", "בית", "home", "home", 0],
       ["favorites.html", "מועדפים", "heart", "favorites", Favs.all().length],
       ["planner.html", "השבוע שלי", "calendar", "planner", n],
-      ["products.html", "מדריך", "book", "products", 0],
+      ["products.html", "קניות", "cart", "products", 0],
     ];
     return `
 <nav class="tabbar" aria-label="ניווט מהיר">
@@ -433,33 +434,24 @@
     return t.length ? `<div class="dish-health">${t.join("")}</div>` : "";
   }
 
-  /* ---------- כרטיס מנה 2.0 ---------- */
+  /* ---------- כרטיס מנה — לפי ההדמיה: תמונה, שם, זמן, כפתור ---------- */
   function mealCard(m, opts) {
     opts = opts || {};
-    const d = diffByLevel(m.difficulty);
     const ph = `<span class="ph">${ico(m.icon)}</span>`;
     const faved = Favs.has(m.id);
+    const href = `meal.html?id=${encodeURIComponent(m.id)}`;
     return `
 <article class="dish rise">
   <button class="fav" type="button" data-fav="${esc(m.id)}" aria-pressed="${faved}"
           aria-label="${faved ? "הסרה מהמועדפים" : "הוספה למועדפים"}: ${esc(m.name)}">${ico("heart")}</button>
-  <span class="dish-badge${m.difficulty >= 4 ? " b2" : ""}">${esc(d.name)}</span>
-  <a class="dish-thumb" href="meal.html?id=${encodeURIComponent(m.id)}" tabindex="-1" aria-hidden="true">
-    ${img(mealImg(m.id), ph)}
-    <span class="illus-note">תמונה להמחשה</span>
-  </a>
+  <a class="dish-thumb" href="${href}" tabindex="-1" aria-hidden="true">${img(mealImg(m.id), ph)}</a>
   <div class="dish-body">
-    <h3><a href="meal.html?id=${encodeURIComponent(m.id)}">${esc(m.name)}</a></h3>
-    <p>${esc(m.short)}</p>
-    ${healthTags(m)}
-    <div class="dish-meta">
-      ${ico("clock")}<span>${esc(m.prepTime)} דק׳</span>
-      <span class="dot"></span><span>${esc(m.kosher)}</span>
-    </div>
+    <h3><a href="${href}">${esc(m.name)}</a></h3>
+    <div class="dish-meta">${ico("clock")}<span>${esc(m.prepTime)} דקות</span><span class="dot"></span><span>${esc(m.kosher)}</span></div>
   </div>
   <div class="dish-foot">
     <button class="dish-add" type="button" data-add="${esc(m.id)}">
-      ${ico("calendar")}${opts.addLabel || "הוסף לטבלה"}
+      <span class="plus-c" aria-hidden="true">${ico("plus")}</span>${opts.addLabel || "הוסף לטבלה"}
     </button>
   </div>
 </article>`;
@@ -891,108 +883,119 @@ ${kids.length ? `<ol class="kid-list">${kids.map((k, i) => `
      עמוד ראשי
      ============================================================ */
   function renderHome() {
-    const bannerPh = `<div class="ph">${ico("box")}</div>`;
-    const cats = (CFG.categories || []).map((c) => {
-      const n = MEALS.filter((m) => m.cat === c.id).length;
-      return `
-<a class="fchip" href="category.html?cat=${encodeURIComponent(c.id)}">
-  ${ico(c.icon)}${esc(c.name)} <span style="color:var(--ink-3);font-weight:600">(${n})</span>
-</a>`;
-    }).join("");
-
-    /* שלוש מנות מכל קטגוריה כדי שיהיה מה לראות מיד */
-    const picks = (CFG.categories || []).flatMap((c) =>
-      MEALS.filter((m) => m.cat === c.id).slice(0, 4)
-    );
+    /* צ'יפים לפי ההדמיה: סוג ארוחה (אחד) + מסננים (כמה יחד) */
+    const CAT_CHIPS = { breakfast: ["בוקר", "sun"], lunch: ["צהריים", "sun"], friday: ["שישי", "moon"] };
+    const FILTERS = [
+      { id: "quick", label: "עד 10 דקות", icon: "clock", test: (m) => Number(m.prepTime) <= 10 },
+      { id: "nocook", label: "בלי בישול", icon: "nocook", test: (m) => (m.tags || []).some((t) => t === "בלי בישול" || t === "בלי אפייה") },
+      { id: "ahead", label: "להכנה בערב", icon: "moon", test: (m) => (m.tags || []).includes("מכינים מראש") },
+    ];
+    const st = { cat: "breakfast", f: new Set(), q: "" };
 
     document.body.insertAdjacentHTML("afterbegin", header("home"));
     $("#app").innerHTML = `
-<section class="hero2">
-  <div class="hero2-in">
-    <div class="hero2-card rise">
-      <span class="hero-badge">${ico("leaf")}בריא · מאוזן · בטוח לבית הספר</span>
-      <h1>מה שמים היום <em>בקופסה</em>?</h1>
-      <p>${esc(CFG.tagline || "")} — ${MEALS.length} מנות מעשיות עם רשימת קניות, רמת קושי וערכים תזונתיים.</p>
-      <div class="btn-row">
-        <a class="btn" href="category.html?cat=breakfast">${ico("arrow-l")}בוחרים ארוחה</a>
-        <a class="btn btn-out" href="planner.html">${ico("calendar")}לתכנן השבוע</a>
-      </div>
+<section class="hero3">
+  <div class="hero3-in">
+    <picture class="hero3-img" aria-hidden="true">
+      <source media="(max-width:760px)" srcset="${esc(IMG.heroDir)}hero-home-sm.jpg">
+      <img src="${esc(IMG.heroDir)}hero-home.jpg" alt="" width="1920" height="832" fetchpriority="high">
+    </picture>
+    <div class="hero3-card rise">
+      <h1><span class="l1">מה שמים היום</span> <em>בקופסה?<span class="spark" aria-hidden="true"></span></em></h1>
+      <p>רעיונות טעימים לבוקר פשוט יותר</p>
+      <a class="btn btn-xl" href="#ideas">בוחרים ארוחה${ico("arrow-l")}</a>
     </div>
-    <div class="hero2-media rise">${img(heroImg("banner"), bannerPh, "", "קופסת אוכל ארוזה לבית הספר")}</div>
   </div>
 </section>
 
-<div class="bigsearch rise">
-  <label class="bigsearch-in">
-    <span class="sr">חיפוש מנה</span>
-    ${ico("search")}
-    <input type="search" id="homeQ" placeholder="מה מכינים היום?" autocomplete="off">
-  </label>
-</div>
-<div class="chiprow rise">${cats}</div>
-
-<section class="sec" style="padding-top:clamp(28px,4vw,48px)">
-  <div class="wrap">
-    <div id="homeResults">
-      ${(CFG.categories || []).map((c) => {
-        const list = MEALS.filter((m) => m.cat === c.id).slice(0, 4);
-        return `
-      <div class="grp-head rise" style="margin-bottom:18px">
-        <h2>${esc(c.name)}</h2>
-        <span class="ln"></span>
-        <a class="btn btn-out btn-sm" href="category.html?cat=${c.id}">כל ה${esc(c.name)}</a>
+<section class="finder" aria-label="חיפוש וסינון מנות">
+  <div class="finder-in rise">
+    <label class="bigsearch-in">
+      <span class="sr-only">חיפוש מנה</span>
+      ${ico("search")}
+      <input type="search" id="homeQ" placeholder="מה מכינים היום?" autocomplete="off">
+    </label>
+    <div class="finder-chips">
+      <div class="chipgrp" role="group" aria-label="סוג ארוחה">
+        ${Object.entries(CAT_CHIPS).map(([id, [label, icon]]) =>
+          `<button type="button" class="fchip" data-cat="${id}" aria-pressed="${id === st.cat}">${ico(icon)}${label}</button>`).join("")}
       </div>
-      <div class="meals" style="margin-bottom:38px">${list.map((m) => mealCard(m)).join("")}</div>`;
-      }).join("")}
+      <div class="chipgrp" role="group" aria-label="סינון">
+        ${FILTERS.map((f) => `<button type="button" class="fchip" data-f="${f.id}" aria-pressed="false">${ico(f.icon)}${f.label}</button>`).join("")}
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="sec ideas" id="ideas" aria-labelledby="ideasT" tabindex="-1">
+  <div class="wrap">
+    <div class="ideas-head">
+      <h2 id="ideasT"></h2>
+      <a class="btn btn-out btn-sm" id="ideasAll" href="#"></a>
+    </div>
+    <p class="sr-only" id="ideasLive" role="status" aria-live="polite"></p>
+    <div class="meals" id="homeResults"></div>
   </div>
 </section>
 
 <section class="sec" style="padding-top:0">
   <div class="wrap">
-    <div class="weekcta rise">
-      <div>
-        <h2>השבוע שלי</h2>
-        <p>בוחרים ארוחה לכל יום, והאתר מרכיב רשימת קניות אחת לכל השבוע.</p>
+    <div class="weekcta2 rise">
+      <div class="wk-txt">
+        <h2>השבוע כבר מסודר<span class="spark" aria-hidden="true"></span></h2>
+        <p>שומרים את המתכונים שאוהבים ומתכננים את השבוע בקלות</p>
       </div>
-      <a class="btn" href="planner.html">${ico("calendar")}לתכנן השבוע</a>
-    </div>
-  </div>
-</section>
-
-<section class="sec sec-cream" style="padding-top:clamp(30px,4vw,54px)">
-  <div class="wrap">
-    ${titleArea("מדריך קניות", "איפה האלרגנים מסתתרים", "הקטגוריות בסופר שדורשות תשומת לב מיוחדת.")}
-    <div class="prods rise" style="grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))">
-      ${PRODUCTS.filter((p) => p.status !== "ok").slice(0, 6).map((p) => `
-      <div class="prod">
-        <div class="prod-b"><b>${esc(p.name)}</b><span>${esc(p.status === "avoid" ? p.avoid : p.look)}</span></div>
-        <span class="badge ${p.status === "avoid" ? "badge-no" : "badge-warn"}">${p.status === "avoid" ? "להימנע" : "בדוק תווית"}</span>
-      </div>`).join("")}
-    </div>
-    <div class="btn-row rise" style="justify-content:center;margin-top:30px">
-      <a class="btn btn-out" href="products.html">${ico("book")}המדריך המלא</a>
+      <a class="btn wk-btn" href="planner.html">${ico("calendar")}לתכנון השבוע</a>
+      <div class="wk-note" aria-hidden="true">
+        <div class="wk-paper">
+          <div class="wk-grid">${["א", "ב", "ג", "ד", "ה"].map((d) => `<b>${d}׳</b>`).join("")}${Array.from({ length: 10 }, (_, i) => `<i>${i === 1 ? ico("box") : ""}</i>`).join("")}</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>`;
 
-    /* חיפוש חי בעמוד הבית */
-    const q = $("#homeQ");
-    const out = $("#homeResults");
-    const original = out.innerHTML;
-    q.addEventListener("input", () => {
-      const v = q.value.trim().toLowerCase();
-      if (!v) { out.innerHTML = original; initRise(); return; }
-      const hits = MEALS.filter((m) =>
-        [m.name, m.short, (m.tags || []).join(" "), (m.prep || []).map((p) => p.name).join(" ")]
-          .join(" ").toLowerCase().includes(v));
-      out.innerHTML = hits.length
-        ? `<div class="grp-head"><h2>${hits.length} תוצאות</h2><span class="ln"></span></div>
-           <div class="meals">${hits.slice(0, 24).map((m) => mealCard(m)).join("")}</div>`
-        : `<div class="empty">לא נמצאו מנות שמתאימות ל״${esc(q.value)}״.</div>`;
+    const catName = (id) => ({ breakfast: "לבוקר", lunch: "לצהריים", friday: "לשישי" }[id]);
+    function draw() {
+      const q = st.q.trim().toLowerCase();
+      let list;
+      if (q) {
+        list = MEALS.filter((m) => [m.name, m.short, (m.tags || []).join(" "), (m.prep || []).map((p) => p.name).join(" ")]
+          .join(" ").toLowerCase().includes(q));
+      } else list = MEALS.filter((m) => m.cat === st.cat);
+      FILTERS.forEach((f) => { if (st.f.has(f.id)) list = list.filter(f.test); });
+      const c = catById(st.cat) || {};
+      $("#ideasT").innerHTML = q ? `${list.length} תוצאות ל״${esc(st.q.trim())}״` : `רעיונות ${catName(st.cat)}<span class="spark" aria-hidden="true"></span>`;
+      const all = $("#ideasAll");
+      all.href = `category.html?cat=${st.cat}`; all.textContent = `לכל ה${c.name || "מנות"}`; all.hidden = !!q;
+      $("#homeResults").innerHTML = list.length
+        ? list.slice(0, 8).map((m) => mealCard(m)).join("")
+        : `<div class="empty">לא נמצאו מנות שמתאימות לבחירה. <button type="button" class="btn btn-out btn-sm" id="clearF">ניקוי הסינון</button></div>`;
+      $("#ideasLive").textContent = `${list.length} מנות מוצגות`;
       initRise();
+    }
+
+    $(".finder").addEventListener("click", (e) => {
+      const c = e.target.closest("[data-cat]"), f = e.target.closest("[data-f]");
+      if (c) {
+        st.cat = c.dataset.cat;
+        $$("[data-cat]").forEach((b) => b.setAttribute("aria-pressed", String(b === c)));
+      } else if (f) {
+        const on = !st.f.has(f.dataset.f);
+        if (on) st.f.add(f.dataset.f); else st.f.delete(f.dataset.f);
+        f.setAttribute("aria-pressed", String(on));
+      } else return;
+      draw();
+    });
+    $("#homeQ").addEventListener("input", (e) => { st.q = e.target.value; draw(); });
+    $("#ideas").addEventListener("click", (e) => {
+      if (!e.target.closest("#clearF")) return;
+      st.f.clear(); st.q = ""; $("#homeQ").value = "";
+      $$("[data-f]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+      draw();
     });
 
+    draw();
     document.body.insertAdjacentHTML("beforeend", footer());
     document.body.insertAdjacentHTML("beforeend", tabbar("home"));
     initRise();
