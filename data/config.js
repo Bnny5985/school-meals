@@ -9,7 +9,7 @@
 
 window.SITE_CONFIG = {
   siteName: "הקופסה",
-  tagline: "ארוחות לבית הספר — בלי האלרגנים האסורים",
+  tagline: "ארוחות בריאות לבית הספר — בלי האלרגנים האסורים",
   schoolName: "בית הספר היסודי",
   updated: "2026-09-14",
 
@@ -135,7 +135,8 @@ window.SITE_CONFIG = {
   images: {
     mealDir: "assets/img/meals/",
     heroDir: "assets/img/hero/",
-    ext: ".jpg",
+    ext: ".jpg",          /* תמונות ראשיות — עם רקע */
+    mealExt: ".webp",     /* מנות — רקע שקוף */
   },
 
   /* ----------------------------------------------------------

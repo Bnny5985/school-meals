@@ -20,6 +20,7 @@
     readable: false,  /* גופן קריא */
     spacing: false,   /* ריווח מוגדל */
     nomotion: false,  /* עצירת אנימציות */
+    mode: false,      /* מצב נגיש — גרסה חלופית תואמת: מכבה רקע, תלת-ממד, שקיפות ותנועה */
   };
 
   let state = { ...DEFAULTS };
@@ -30,6 +31,9 @@
     /* אחסון חסום — ממשיכים עם ברירות המחדל */
   }
 
+  /* early: מוחל מיד, לפני ציור הדף, כדי שלא יהבהב העיצוב התלת-ממדי */
+  if (state.mode) { html.setAttribute("data-a11ymode", ""); html.setAttribute("data-contrast", "high"); }
+
   function persist() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
@@ -38,13 +42,20 @@
     if (state.fs > 0) html.setAttribute("data-fs", String(state.fs));
     else html.removeAttribute("data-fs");
 
-    if (state.contrast) html.setAttribute("data-contrast", "high");
+    /* מצב נגיש מפעיל ניגודיות גבוהה ועצירת תנועה בלי לשנות את הבחירות האישיות */
+    if (state.mode) html.setAttribute("data-a11ymode", "");
+    else html.removeAttribute("data-a11ymode");
+    if (state.contrast || state.mode) html.setAttribute("data-contrast", "high");
     else html.removeAttribute("data-contrast");
 
     document.body.classList.toggle("a11y-links", state.links);
     document.body.classList.toggle("a11y-readable", state.readable);
     document.body.classList.toggle("a11y-spacing", state.spacing);
-    document.body.classList.toggle("a11y-nomotion", state.nomotion);
+    document.body.classList.toggle("a11y-nomotion", state.nomotion || state.mode);
+    document.querySelectorAll("[data-a11y-mode]").forEach((b) => {
+      b.setAttribute("aria-pressed", String(state.mode));
+      b.setAttribute("aria-label", state.mode ? "כיבוי מצב נגיש" : "הפעלת מצב נגיש: ניגודיות גבוהה, בלי רקע ובלי אנימציות");
+    });
 
     document.querySelectorAll("[data-a11y]").forEach((b) => {
       const k = b.dataset.a11y;
@@ -85,6 +96,10 @@
     panel.innerHTML = `
 <h2>נגישות</h2>
 <p class="sub">ההגדרות נשמרות בדפדפן שלך.</p>
+<button type="button" class="a11y-opt" data-a11y="mode" aria-pressed="false"
+        style="width:100%;flex-direction:row;justify-content:center;min-height:52px;margin-bottom:8px;font-size:14px">
+  ${ICONS.contrast}<span>מצב נגיש מלא — הכול בלחיצה אחת</span>
+</button>
 <div class="a11y-grid">
   <button type="button" class="a11y-opt" data-a11y="fs" aria-pressed="false">
     ${ICONS.text}<span>גודל טקסט<br><span id="a11y-fs-label">רגיל</span></span>
@@ -152,6 +167,13 @@
     const main = document.getElementById("app");
     if (main) { main.setAttribute("tabindex", "-1"); main.setAttribute("role", "main"); }
   }
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("[data-a11y-mode]")) return;
+    state.mode = !state.mode;
+    persist();
+    apply();
+  });
 
   function start() {
     skipLink();

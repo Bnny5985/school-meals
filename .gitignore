@@ -18,3 +18,12 @@ desktop.ini
 # שאריות ComfyUI שהתגלגלו לתיקייה — לא חלק מהאתר
 ck.json
 un.json
+
+# פאנל הניהול — כלי מקומי בלבד, לא עולה לאתר הציבורי
+local-admin/
+
+# פלט ביניים של הסרת הרקע
+tools/.qwen-out/
+
+# פלט של כלי הבדיקה Playwright MCP
+.playwright-mcp/

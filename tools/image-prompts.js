@@ -117,9 +117,10 @@ const HERO = {
   "banner": {
     w: 1216, h: 912, out: [1200, 900],
     subject:
-      "an open school lunchbox neatly packed with a sandwich on smooth plain bread, " +
-      "cherry tomatoes, cucumber sticks, green grapes and a small yogurt, arranged tidily, " +
-      "seen from a slightly elevated angle on a light wooden table",
+      "an open school lunchbox neatly packed with a sandwich on smooth plain white bread, " +
+      "cherry tomatoes, cucumber sticks and green grapes, arranged tidily, " +
+      "standing alone on a completely clean bare light wooden table, the table around the box is " +
+      "spotless and empty with absolutely nothing else on it, seen from a slightly elevated angle",
   },
   "cat-breakfast": {
     w: 1216, h: 684, out: [800, 450],

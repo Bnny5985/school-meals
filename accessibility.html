@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥪</text></svg>">
 </head>
-<body data-page="static">
+<body data-page="static" class="has-bg">
 
 <main id="app">
   <section class="crumb-hero compact">
@@ -196,7 +196,10 @@
 /* עמוד סטטי — מוסיף רק כותרת ופוטר */
 document.addEventListener("DOMContentLoaded", function () {
   document.body.insertAdjacentHTML("afterbegin", window.App.header());
+  if (matchMedia("(max-width:760px)").matches) document.querySelectorAll(".allergy-det").forEach(d=>d.removeAttribute("open"));
+  /* initAllergyBar */
   document.body.insertAdjacentHTML("beforeend", window.App.footer());
+  document.body.insertAdjacentHTML("beforeend", window.App.tabbar(""));
 });
 </script>
 </body>

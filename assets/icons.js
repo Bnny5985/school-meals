@@ -326,9 +326,40 @@
 
     chart: `<path d="M10 54V30M24 54V14M38 54V38M52 54V22" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>`,
 
+    heart: `<path d="M32 54S8 40 8 24a12 12 0 0 1 24-5 12 12 0 0 1 24 5c0 16-24 30-24 30z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>`,
+
+    home: `<path d="M8 28 32 8l24 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 26v26a2 2 0 0 0 2 2h32a2 2 0 0 0 2-2V26" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M26 54V36h12v18" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>`,
+
+    calendar: `<rect x="8" y="14" width="48" height="42" rx="5" fill="none" stroke="currentColor" stroke-width="4"/>
+      <path d="M8 26h48M20 8v10M44 8v10" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="22" cy="38" r="3" fill="currentColor"/><circle cx="32" cy="38" r="3" fill="currentColor"/><circle cx="42" cy="38" r="3" fill="currentColor"/>`,
+
+    shield: `<path d="M32 6 54 14v18c0 14-9.5 22-22 26C19.5 54 10 46 10 32V14z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M22 32l7 7 14-14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
+
+    book: `<path d="M10 10h18a8 8 0 0 1 8 8v36a6 6 0 0 0-6-6H10z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M54 10H36a8 8 0 0 0-8 8v36a6 6 0 0 1 6-6h20z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>`,
+
+    nocook: `<path d="M12 20h40M20 20v26a6 6 0 0 0 6 6h12a6 6 0 0 0 6-6V20" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M8 8l48 48" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>`,
+
+    leaf: `<path d="M12 52C12 26 28 10 54 10c0 26-16 42-42 42z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M12 52 38 26" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>`,
+
+    access: `<circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="4"/>
+      <circle cx="32" cy="17" r="4.5" fill="currentColor"/>
+      <path d="M18 25h28M32 25v13l-8 14M32 38l8 14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
+
     menu: `<path d="M8 16h48M8 32h48M8 48h48" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>`,
 
     x: `<path d="M14 14l36 36M50 14L14 50" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>`,
+    plus: `<path d="M32 12v40M12 32h40" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>`,
+    users: `<circle cx="24" cy="22" r="9" fill="none" stroke="currentColor" stroke-width="4"/><path d="M8 52c1-10 8-16 16-16s15 6 16 16" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="45" cy="24" r="7" fill="none" stroke="currentColor" stroke-width="4"/><path d="M44 37c7 0 12 5 13 13" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>`,
+    trash: `<path d="M12 18h40M26 18v-6h12v6M17 18l3 34h24l3-34M28 27v17M36 27v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
+    up: `<path d="M16 40l16-16 16 16" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`,
+    down: `<path d="M16 24l16 16 16-16" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`,
 
     flame: `<path d="M32 6c8 10 4 14 8 18 3-2 4-5 4-8 6 6 10 13 10 20 0 12-10 22-22 22S10 48 10 36c0-10 8-20 14-24 2 4 1 8 3 10 3-3 5-9 5-16z"
       fill="currentColor"/>`,
