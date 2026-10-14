@@ -598,7 +598,7 @@ ul,ol{list-style:none;margin:0;padding:0}
   .meal-top{gap:24px;padding-top:34px}
   .stats{gap:8px}
   .stat{padding:11px 14px;flex:1 1 calc(50% - 4px)}
-  .steps li{padding-inline-start:0;padding-inline-end:44px}
+  .steps li{padding-right:44px;padding-left:0}
   .steps li::before{width:30px;height:30px;font-size:14px}
   .steps li::after{right:14.5px}
   .nrow{padding:14px}
@@ -627,7 +627,7 @@ ul,ol{list-style:none;margin:0;padding:0}
   .search{border-radius:12px}
   .stat{flex:1 1 100%}
   .bstat{flex:1 1 100%}
-  .steps li{padding-inline-end:40px}
+  .steps li{padding-right:42px}
 }
 
 /* מסכי מגע — אין ריחוף, לכן אין צורך באפקטים שנתקעים */
