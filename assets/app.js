@@ -326,6 +326,7 @@
       ["planner.html", "השבוע שלי", "planner"],
       ["favorites.html", "מועדפים", "favorites"],
       ["products.html", "מדריך קניות", "products"],
+      ["suggest.html", "הציעו מתכון", "suggest"],
     ];
     return `
 <header class="hdr">
@@ -406,6 +407,7 @@
       <a href="accessibility.html">הצהרת נגישות</a>
       <a href="accessibility.html#privacy">פרטיות</a>
       <a href="products.html">מדריך קניות</a>
+      <a href="suggest.html">הציעו מתכון</a>
     </div>
     <div class="ftr-brand">
       <a class="logo ftr-logo" href="index.html"><span class="logo-mark">${ico("box")}</span><span>${esc(CFG.siteName)}</span></a>
@@ -958,6 +960,16 @@ ${kids.length ? `<ol class="kid-list">${kids.map((k, i) => `
           <div class="wk-grid">${["א", "ב", "ג", "ד", "ה"].map((d) => `<b>${d}׳</b>`).join("")}${Array.from({ length: 10 }, (_, i) => `<i>${i === 1 ? ico("box") : ""}</i>`).join("")}</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="suggest-cta rise">
+      <span class="sg-ico" aria-hidden="true">${ico("bulb")}</span>
+      <div><h2>יש לכם מתכון מנצח?</h2><p>מתכון שהילדים אוהבים ומתאים לכללי בית הספר — הציעו אותו לאתר.</p></div>
+      <a class="btn" href="suggest.html">הציעו מתכון${ico("arrow-l")}</a>
     </div>
   </div>
 </section>`;
@@ -1670,6 +1682,54 @@ ${allergyBand(true)}`;
   }
 
   /* ============================================================
+     הציעו מתכון — כפתור שפותח את Google Forms.
+     הטופס לא מוטמע ולא נטען מראש: גוגל מקבלת מידע רק ממי שלחץ.
+     ============================================================ */
+  function renderSuggest() {
+    document.title = `הציעו מתכון · ${CFG.siteName}`;
+    document.body.dataset.tab = "suggest";
+    document.body.insertAdjacentHTML("afterbegin", header("suggest"));
+    const url = CFG.suggestForm || "";
+    $("#app").innerHTML = `
+<section class="crumb-hero">
+  <div class="wrap">
+    <h1>הציעו מתכון</h1>
+    <div class="crumb-nav"><a href="index.html">ראשי</a><span class="cur">הציעו מתכון</span></div>
+  </div>
+</section>
+<section class="sec" style="padding-top:clamp(20px,3vw,34px)">
+  <div class="wrap" style="max-width:820px">
+    <div class="plan-card suggest-card rise">
+      <h2>יש לכם מתכון שהילדים אוהבים?</h2>
+      <p class="lede">שתפו אותו עם שאר ההורים. כל הצעה נבדקת לפני שהיא עולה לאתר — כולל בדיקה מול רשימת האלרגנים.</p>
+      <h3>מה כדאי לכתוב</h3>
+      <ul class="sg-list">
+        <li>${ico("check")}<span>שם המתכון ולאיזו ארוחה הוא מתאים — בוקר, צהריים או פינוק לשישי</span></li>
+        <li>${ico("check")}<span>רשימת מצרכים עם כמויות</span></li>
+        <li>${ico("check")}<span>שלבי הכנה קצרים, ואם אפשר להכין מראש בערב</span></li>
+      </ul>
+      <div class="alert alert-danger sg-rules">
+        ${ico("alert")}
+        <div><b>המתכון חייב להיות בלי:</b>${activeAllergens().map((a) => esc(a.name)).join(" · ")}
+        <span style="display:block;margin-top:6px">בדקו תמיד את תווית המוצר — גם את שורת ׳עלול להכיל׳.</span></div>
+      </div>
+      ${url ? `
+      <div class="sg-go">
+        <a class="btn btn-xl" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
+          לטופס הצעת מתכון${ico("arrow-l")}<span class="sr-only"> (נפתח בחלון חדש, באתר של Google Forms)</span>
+        </a>
+        <p class="sg-note">${ico("shield")}הטופס נפתח באתר של Google Forms. אין צורך במייל או בטלפון.
+          <a href="accessibility.html#privacy">פרטיות</a></p>
+      </div>` : `<p class="pick-hint">הטופס עדיין לא הוגדר.</p>`}
+    </div>
+  </div>
+</section>`;
+    document.body.insertAdjacentHTML("beforeend", footer());
+    document.body.insertAdjacentHTML("beforeend", tabbar("suggest"));
+    initRise();
+  }
+
+  /* ============================================================
      מדריך קניות — ציבורי
      ============================================================ */
   function renderProducts() {
@@ -1755,6 +1815,7 @@ ${allergyBand(true)}`;
     else if (page === "favorites") renderFavorites();
     else if (page === "planner") renderPlanner();
     else if (page === "products") renderProducts();
+    else if (page === "suggest") renderSuggest();
     initAllergyBar();
   });
 })();

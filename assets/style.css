@@ -2105,3 +2105,27 @@ html[data-a11ymode] .quick-cats a[aria-current="page"]{background:#000 !importan
 @media(max-width:760px){.ftr-grid > div:first-child{text-align:center}.ftr-logo{justify-content:center}}
 .ftr-brand{display:flex;justify-content:center;padding:26px 0 6px;margin-top:20px;border-top:1px solid rgba(255,255,255,.1)}
 .ftr-brand .ftr-logo{margin:0;color:#fff}
+
+/* --- הציעו מתכון --- */
+.suggest-card{padding:clamp(22px,3.4vw,40px)}
+.suggest-card h2{font-size:clamp(24px,3vw,32px);font-weight:900;margin:0 0 8px}
+.suggest-card h3{font-size:18px;margin:22px 0 10px}
+.suggest-card .lede{color:var(--ink-2);font-size:17px;margin:0}
+.sg-list{display:grid;gap:9px;margin:0 0 20px;padding:0}
+.sg-list li{display:flex;gap:10px;align-items:flex-start;font-size:16px;color:var(--ink)}
+.sg-list svg{width:20px;height:20px;flex:0 0 auto;color:var(--ok);margin-top:2px}
+.sg-rules{margin:0 0 24px}
+.sg-go{text-align:center}
+.sg-note{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;color:var(--ink-2);font-size:14px;margin:14px 0 0}
+.sg-note svg{width:16px;height:16px;color:var(--ok)}
+.suggest-cta{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  background:var(--glass4);backdrop-filter:var(--glass4-blur);-webkit-backdrop-filter:var(--glass4-blur);
+  border:1px solid var(--glass4-line);border-radius:30px;box-shadow:var(--glass4-sh);padding:20px clamp(18px,3vw,36px);
+}
+.suggest-cta > div{flex:1 1 260px}
+.suggest-cta h2{font-size:clamp(21px,2.4vw,28px);font-weight:900;margin:0 0 4px}
+.suggest-cta p{margin:0;color:var(--ink-2);font-weight:600}
+.sg-ico{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--amber);color:var(--on-amber);flex:0 0 auto}
+.sg-ico svg{width:28px;height:28px}
+html[data-a11ymode] .suggest-cta{background:#fff !important;border:2px solid #000 !important;box-shadow:none !important;backdrop-filter:none !important}

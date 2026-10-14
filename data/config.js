@@ -162,6 +162,9 @@ window.SITE_CONFIG = {
     },
   },
 
+  /* טופס "הציעו מתכון" (Google Forms). נפתח רק בלחיצה — לא נטען מראש בעמוד. */
+  suggestForm: "https://docs.google.com/forms/d/1tfOCxy-Wrn2_Yi9vFBqEK_w8Zz0pmUCr5v_7EKtrNHU/viewform",
+
   /* טקסט האזהרה שמופיע בכל דף מנה. שנה כרצונך. */
   disclaimer:
     "המידע כאן נועד לעזור בתכנון, והוא לא תחליף לבדיקה שלך. " +
