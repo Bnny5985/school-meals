@@ -2064,3 +2064,44 @@ html[data-a11ymode] .crumb-hero .wrap{background:#fff !important;border:2px soli
 }
 html[data-a11ymode] .hero3-in{box-shadow:none !important;border:2px solid #000 !important}
 @media(min-width:761px){.hero3-card{top:0;bottom:0;margin-block:auto;height:fit-content;transform:none}}
+
+/* --- כפתורי הארוחות בראש העמוד (טלפון וטאבלט), הלוגו עבר לתחתית --- */
+.quick-cats{display:none}
+.nav-theme{display:none}
+@media(max-width:920px){
+  .hdr-in{padding:8px 10px}
+  .quick-cats{display:flex;flex:1 1 auto;min-width:0;gap:6px}
+  .quick-cats a{
+    flex:1 1 0;min-width:0;min-height:44px;display:grid;place-items:center;text-align:center;
+    padding:6px 8px;border-radius:var(--r-pill);text-decoration:none;
+    font-family:var(--title-font);font-weight:800;font-size:14.5px;line-height:1.15;color:var(--ink);
+    background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.9);
+    box-shadow:inset 0 1px 0 #fff,0 3px 10px rgba(60,40,10,.08);
+  }
+  .quick-cats a[aria-current="page"]{background:linear-gradient(180deg,#FFD84D,#FFC933);color:#1A1613;border-color:#FFC933;
+    box-shadow:0 3px 0 var(--amber-deep),0 6px 14px rgba(227,164,0,.28)}
+  .hdr-spacer,.hdr-theme{display:none}
+  .nav .nav-cat{display:none}
+  .nav-theme{display:flex;align-items:center;gap:10px;padding:14px 18px;font:inherit;font-size:16.5px;font-weight:600;
+    color:var(--ink);background:transparent;border:0;border-radius:12px;cursor:pointer;text-align:start;min-height:44px}
+  .nav-theme svg{width:20px;height:20px}
+  .nav-theme:hover{background:color-mix(in srgb,var(--amber) 40%,transparent)}
+}
+@media(max-width:430px){
+  .hdr-in{gap:6px;padding:7px 8px}
+  .quick-cats{gap:5px}
+  .quick-cats a{font-size:13px;padding:5px 5px}
+  .a11y-mode-btn,.nav-toggle{width:42px;height:42px;padding:0;justify-content:center;flex:0 0 auto}
+}
+:root[data-theme="dark"] .quick-cats a:not([aria-current="page"]){background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);box-shadow:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .quick-cats a:not([aria-current="page"]){background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);box-shadow:none}}
+html[data-a11ymode] .quick-cats a{background:#fff !important;border:2px solid #000 !important;box-shadow:none !important;color:#000 !important}
+html[data-a11ymode] .quick-cats a[aria-current="page"]{background:#000 !important;color:#fff !important}
+
+/* הלוגו בתחתית העמוד — גדול ובולט */
+.ftr-logo{font-size:30px;font-weight:900;text-decoration:none;display:inline-flex;gap:12px}
+.ftr-logo .logo-mark{width:54px;height:54px;border-radius:15px}
+.ftr-logo .logo-mark svg{width:30px;height:30px}
+@media(max-width:760px){.ftr-grid > div:first-child{text-align:center}.ftr-logo{justify-content:center}}
+.ftr-brand{display:flex;justify-content:center;padding:26px 0 6px;margin-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.ftr-brand .ftr-logo{margin:0;color:#fff}

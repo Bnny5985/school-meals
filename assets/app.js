@@ -317,7 +317,11 @@
   function header(active) {
     const chips = activeAllergens().map((a) => `<span class="chip chip-x">${esc(a.name)}</span>`).join("");
     const ok = (CFG.allowed || []).length ? `<span class="chip chip-ok">מותר: ${esc(CFG.allowed.join(", "))}</span>` : "";
+    /* כפתורי הארוחות בראש העמוד (בטלפון — במקום הלוגו) */
+    const QUICK = { breakfast: "ארוחת בוקר", lunch: "צהריים", friday: "פינוק לשישי" };
+    const CAT_IDS = (CFG.categories || []).map((c) => c.id);
     const nav = [
+      ["index.html", "ראשי", "home"],
       ...(CFG.categories || []).map((c) => [`category.html?cat=${c.id}`, c.id === "friday" ? "פינוק לשישי" : c.name, c.id]),
       ["planner.html", "השבוע שלי", "planner"],
       ["favorites.html", "מועדפים", "favorites"],
@@ -326,18 +330,18 @@
     return `
 <header class="hdr">
   <div class="hdr-in">
-    <a class="logo" href="index.html"${active === "home" ? ' aria-current="page"' : ""}>
-      <span class="logo-mark">${ico("box")}</span>
-      <span>${esc(CFG.siteName || "הקופסה")}</span>
-    </a>
+    <nav class="quick-cats" aria-label="סוגי ארוחות">
+      ${(CFG.categories || []).map((c) => `<a href="category.html?cat=${c.id}"${active === c.id ? ' aria-current="page"' : ""}>${esc(QUICK[c.id] || c.name)}</a>`).join("")}
+    </nav>
     <nav class="nav" id="mainNav" aria-label="ניווט ראשי">
-      ${nav.map(([href, label, key]) => `<a href="${href}"${active === key ? ' aria-current="page"' : ""}>${esc(label)}</a>`).join("")}
+      ${nav.map(([href, label, key]) => `<a href="${href}"${active === key ? ' aria-current="page"' : ""}${CAT_IDS.includes(key) ? ' class="nav-cat"' : ""}>${esc(label)}</a>`).join("")}
+      <button class="nav-theme" type="button" data-theme-toggle>${ico("moon")}מצב בהיר / כהה</button>
     </nav>
     <span class="hdr-spacer"></span>
     <button class="a11y-mode-btn" type="button" data-a11y-mode aria-pressed="false">
       ${ico("access")}<span class="lbl">מצב נגיש</span>
     </button>
-    <button class="icon-btn" data-theme-toggle aria-label="החלף ערכת נושא">${ico("moon")}</button>
+    <button class="icon-btn hdr-theme" data-theme-toggle aria-label="החלף ערכת נושא">${ico("moon")}</button>
     <button class="icon-btn nav-toggle" data-nav-toggle aria-label="תפריט" aria-expanded="false" aria-controls="mainNav">
       <span class="ic-open">${ico("menu")}</span><span class="ic-close">${ico("x")}</span>
     </button>
@@ -380,7 +384,7 @@
   <div class="ftr-in">
     <div class="ftr-grid">
       <div>
-        <div class="logo"><span class="logo-mark">${ico("box")}</span><span>${esc(CFG.siteName)}</span></div>
+        <h3 style="font-size:17px">${esc(CFG.siteName)}</h3>
         <p class="ftr-note">${esc(CFG.tagline || "")}</p>
       </div>
       <div>
@@ -402,6 +406,9 @@
       <a href="accessibility.html">הצהרת נגישות</a>
       <a href="accessibility.html#privacy">פרטיות</a>
       <a href="products.html">מדריך קניות</a>
+    </div>
+    <div class="ftr-brand">
+      <a class="logo ftr-logo" href="index.html"><span class="logo-mark">${ico("box")}</span><span>${esc(CFG.siteName)}</span></a>
     </div>
   </div>
 </footer>`;
